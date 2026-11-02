@@ -1,0 +1,65 @@
+{
+  "_about": "Controlled vocabulary for BSI QC. Edit here (or promote proposals in the app) to add values. Keys are stored values; labels/help are shown in the app.",
+  "polygon": {
+    "qc_class": [
+      {"value": "manure_pond", "label": "Manure pond", "key": "1", "help": "A plausible open manure lagoon, slurry-storage basin or liquid-manure pond."},
+      {"value": "possible_manure", "label": "Possible manure", "key": "2", "help": "Wet or liquid feature plausibly related to manure management, but not confidently an open pond."},
+      {"value": "manure_related_nonpond", "label": "Manure-related, not pond", "key": "3", "help": "Manure-related infrastructure or surface that is not an open pond, such as a digester."},
+      {"value": "wet_runoff", "label": "Wet runoff", "key": "4", "help": "Drainage, saturated soil, transient wet ground or runoff without a discrete storage pond."},
+      {"value": "other_water", "label": "Other water", "key": "5", "help": "Non-manure water: stock/irrigation pond, retention pond, reservoir, natural water."},
+      {"value": "other_false_positive", "label": "Other false positive", "key": "6", "help": "Shadow, dark soil, vegetation, roof or another non-pond surface."},
+      {"value": "mixed_or_merged", "label": "Mixed / merged", "key": "7", "help": "Covers more than one surface class; cannot assign one defensible class. Explain in notes."},
+      {"value": "uncertain", "label": "Uncertain", "key": "8", "help": "Insufficient evidence to classify this polygon; note the limitation."}
+    ],
+    "qc_issue": [
+      {"value": "none", "label": "None", "help": "No noteworthy segmentation or clipping issue."},
+      {"value": "split_detection", "label": "Split detection", "help": "One physical target split across multiple polygons."},
+      {"value": "merged_detection", "label": "Merged detection", "help": "One polygon joins more than one physical target or surface."},
+      {"value": "missed_small_feature", "label": "Missed small feature", "help": "A relevant small feature next to this polygon seems missed by BSI (includes 'too small to detect' / resolution)."},
+      {"value": "footprint_clipping", "label": "Footprint clipping", "help": "Target is truncated by the supplied operation footprint."},
+      {"value": "other", "label": "Other", "help": "Another identifiable issue; describe in notes."}
+    ],
+    "qc_confidence": [
+      {"value": "high", "label": "High"},
+      {"value": "medium", "label": "Medium"},
+      {"value": "low", "label": "Low"}
+    ],
+    "qc_facility_association": [
+      {"value": "inside_operation", "label": "Inside operation"},
+      {"value": "adjacent", "label": "Adjacent"},
+      {"value": "unrelated", "label": "Unrelated"},
+      {"value": "unknown", "label": "Unknown"}
+    ]
+  },
+  "missed_class": ["manure_pond", "possible_manure", "manure_related_nonpond", "wet_runoff", "other_water"],
+  "operation": {
+    "qc_result": [
+      {"value": "correct", "label": "Correct", "help": "Pipeline output is right for this operation."},
+      {"value": "incorrect", "label": "Incorrect", "help": "BSI hit a non-manure surface, or missed a visible manure pond."},
+      {"value": "uncertain", "label": "Uncertain", "help": "Imagery does not support a defensible interpretation."}
+    ],
+    "qc_feature": [
+      {"value": "manure_pond", "label": "Manure pond"},
+      {"value": "possible_manure", "label": "Possible manure"},
+      {"value": "manure_related_nonpond", "label": "Manure-related, not pond"},
+      {"value": "other_water", "label": "Other water"},
+      {"value": "wet_runoff", "label": "Wet runoff"},
+      {"value": "other_false_positive", "label": "Other false positive"},
+      {"value": "no_visible_candidate", "label": "No visible candidate"},
+      {"value": "unclear", "label": "Unclear"}
+    ],
+    "qc_issue": [
+      {"value": "none", "label": "None"},
+      {"value": "split_detection", "label": "Split detection"},
+      {"value": "merged_detection", "label": "Merged detection"},
+      {"value": "missed_small_feature", "label": "Missed small feature"},
+      {"value": "footprint_clipping", "label": "Footprint clipping"},
+      {"value": "other", "label": "Other"}
+    ],
+    "qc_site_valid": [
+      {"value": "yes", "label": "Yes, looks like a cattle operation"},
+      {"value": "no", "label": "No, not a cattle operation (location FP)"},
+      {"value": "unsure", "label": "Unsure"}
+    ]
+  }
+}

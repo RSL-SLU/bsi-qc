@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BSI QC</title>
+<link rel="stylesheet" href="/static/vendor/leaflet/leaflet.css">
+<link rel="stylesheet" href="/static/vendor/leaflet-draw/leaflet.draw.css">
+<link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+<header>
+  <div class="brand">BSI QC</div>
+  <nav>
+    <button data-tab="review" class="on">Review</button>
+    <button data-tab="progress">Progress</button>
+    <button data-tab="proposals">Proposals <span id="propCount" class="pill hidden"></span></button>
+    <button data-tab="export">Export</button>
+    <button data-tab="help">Guide</button>
+  </nav>
+  <div class="spacer"></div>
+  <span id="saveState" class="muted"></span>
+  <button id="who" class="who" title="Change reviewer">Reviewer: <b id="whoName">?</b></button>
+</header>
+
+<main id="tab-review" class="tab on">
+  <aside id="queuePane">
+    <div class="filters">
+      <select id="fRegion"><option value="">All regions</option></select>
+      <div class="row">
+        <select id="fState">
+          <option value="">Any state</option>
+          <option value="todo" selected>To do (not done)</option>
+          <option value="not_started">Not started</option>
+          <option value="polys_pending">Verdict done, polygons pending</option>
+          <option value="in_progress">In progress</option>
+          <option value="needs_followup">Needs follow-up</option>
+          <option value="done">Done</option>
+        </select>
+        <select id="fClass">
+          <option value="">Pond + no-pond</option>
+          <option value="pond">BSI pond</option>
+          <option value="no-pond">BSI no-pond</option>
+        </select>
+      </div>
+      <input id="fSearch" placeholder="Search operation id">
+    </div>
+    <div id="queueCount" class="muted small"></div>
+    <ul id="queue"></ul>
+  </aside>
+
+  <section id="mapPane">
+    <div id="map"></div>
+    <div id="layerBar">
+      <div class="seg" id="rasterSeg">
+        <button data-l="">Basemap</button>
+        <button data-l="tci" class="on" title="t">TCI</button>
+        <button data-l="bsi-e" title="b">BSI-E</button>
+        <button data-l="bsi-mask" title="k: BSI-E below the operation's threshold (pond signal)">BSI mask</button>
+        <button data-l="ndvi">NDVI</button>
+        <button data-l="savi">SAVI</button>
+        <button data-l="ndbi">NDBI</button>
+        <button data-l="ndci">NDCI</button>
+      </div>
+      <label class="small">Opacity <input type="range" id="opacity" min="0" max="100" value="100"></label>
+      <label class="small"><input type="checkbox" id="stretch" checked> Stretch</label>
+      <label class="small"><input type="checkbox" id="showPolys" checked> Outlines</label>
+      <select id="basemap" class="small">
+        <option value="esri">Esri imagery</option>
+        <option value="google">Google satellite</option>
+        <option value="osm">OpenStreetMap</option>
+      </select>
+    </div>
+    <div id="legend" class="hidden"></div>
+    <div id="rasterMsg" class="hidden"></div>
+    <div id="drawBar">
+      <button id="btnMissed" title="m">+ Mark missed pond</button>
+      <button id="btnZoom" title="z">Zoom to operation</button>
+    </div>
+  </section>
+
+  <aside id="detailPane">
+    <div id="empty" class="muted pad">Pick an operation from the queue.</div>
+    <div id="detail" class="hidden"></div>
+  </aside>
+</main>
+
+<main id="tab-progress" class="tab"><div class="pad" id="progress"></div></main>
+<main id="tab-proposals" class="tab"><div class="pad" id="proposals"></div></main>
+<main id="tab-export" class="tab">
+  <div class="pad narrow">
+    <h2>Export</h2>
+    <p>Writes a new timestamped folder in <code>qc_workspace/exports/</code>. Nothing is overwritten.</p>
+    <ul class="plain">
+      <li><b>climate_trace/</b> one <code>*_qc_samples_complete_*.geojson</code> per selected region, same schema as today.</li>
+      <li><b>research/International_BSI_Polygon_QC_*.gpkg</b> the international package with qc_* filled in. IDs and geometry untouched.</li>
+      <li><b>research/bsi_candidate_library.gpkg / .csv</b> every polygon in the selected regions (detected and missed) with labels and BSI context.</li>
+      <li><b>research/qc_audit_log.csv</b> every save, who, when, before and after.</li>
+    </ul>
+    <div class="flabel" style="margin-top:12px">Regions to export</div>
+    <div id="expRegions" class="chips" style="margin-bottom:6px"></div>
+    <p class="small muted" style="margin-top:0">Pre-selected: regions where someone saved something in the app. <a href="#" id="expAll">Select all</a> · <a href="#" id="expNone">None</a></p>
+    <label>File suffix (initials) <input id="expInitials" value="RSL"></label>
+    <label><input type="checkbox" id="expStrict"> Climate TRACE files: only the four guide fields (drop qc_site_valid, reviewer, date)</label>
+    <p><button id="btnExport" class="primary">Export now</button></p>
+    <div id="expResult"></div>
+  </div>
+</main>
+<main id="tab-help" class="tab"><div class="pad narrow" id="help"></div></main>
+
+<div id="toast" class="hidden"></div>
+
+<dialog id="dlgWho">
+  <form method="dialog">
+    <h3>Who is reviewing?</h3>
+    <p class="muted">Initials or short name. Saved on every record you touch.</p>
+    <input id="whoInput" maxlength="20" placeholder="e.g. AP" autofocus>
+    <menu><button value="ok" class="primary">Start</button></menu>
+  </form>
+</dialog>
+
+<dialog id="dlgPropose">
+  <form method="dialog">
+    <h3>Propose a new label</h3>
+    <p class="muted" id="proposeFor"></p>
+    <input id="proposeInput" maxlength="60" placeholder="short label, e.g. silage_leachate">
+    <p class="muted small">It is saved on this record as a proposal and listed under Proposals, where it can be promoted to a real value or mapped to an existing one.</p>
+    <menu><button value="cancel">Cancel</button><button value="ok" class="primary">Use proposal</button></menu>
+  </form>
+</dialog>
+
+<script src="/static/vendor/leaflet/leaflet.js"></script>
+<script src="/static/vendor/leaflet-draw/leaflet.draw.js"></script>
+<script src="/static/app.js"></script>
+</body>
+</html>

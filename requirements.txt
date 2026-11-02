@@ -1,0 +1,6 @@
+flask>=2.3
+numpy>=1.23
+tifffile>=2023.1
+imagecodecs>=2023.1
+pillow>=9.0
+pyproj>=3.4   # reprojects any raster that is not in EPSG:4326

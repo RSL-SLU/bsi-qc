@@ -1,0 +1,15 @@
+# local data and review state (never commit)
+data/
+qc_workspace/
+*.gpkg
+*.sqlite
+# python / editor / agent
+__pycache__/
+*.pyc
+*.part
+.env
+.venv/
+.vscode/
+.claude/settings.local.json
+.DS_Store
+Thumbs.db
