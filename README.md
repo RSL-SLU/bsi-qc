@@ -10,7 +10,7 @@ Reviewers label each candidate polygon. The operation verdict is suggested from 
 ## Getting started (new reviewer, Windows + conda)
 
 ```
-git clone <repo URL>
+git clone https://github.com/RSL-SLU/bsi-qc.git
 cd bsi-qc
 conda create -n bsi_app python=3.11 -y
 conda activate bsi_app
@@ -114,9 +114,9 @@ Resolve open proposals before exporting for Climate TRACE: the export warns if a
 Use the **Export** tab and tick the regions you want (it pre-selects the regions where someone saved something), or on the command line:
 
 ```
-python bsi_qc.py export --region RUS --initials RSL_AP     # one region (repeat --region for more)
-python bsi_qc.py export --all --initials RSL_AP            # everything
-python bsi_qc.py export --initials RSL_AP                  # regions with app edits
+python bsi_qc.py export --region RUS --initials RSL_XY     # one region (repeat --region for more)
+python bsi_qc.py export --all --initials RSL_XY            # everything
+python bsi_qc.py export --initials RSL_XY                  # regions with app edits
 ```
 
 Each export creates a new folder, `qc_workspace/exports/export_<timestamp>_<region>/`, with files only for the chosen regions:

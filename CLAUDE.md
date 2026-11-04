@@ -1,6 +1,6 @@
 # BSI QC app
 
-Local web app for Climate TRACE BSI (Bovine Slurry Index) QC at SLU's Remote Sensing Lab. One review pass produces:
+Local web app for Climate TRACE BSI (Bovine Slurry Index) QC at the Remote Sensing Lab (RSL), Saint Louis University. One review pass produces:
 - **Operation-level QC** for Climate TRACE: `*_qc_samples_complete_<initials>.geojson` per region (same schema as the legacy QGIS files).
 - **Polygon-level QC** for research: `bsi_polygon_qc` GeoPackages, plus a cross-region candidate library (manure ponds vs false positives, and reviewer-marked missed ponds).
 
@@ -13,7 +13,7 @@ python bsi_qc.py pull "<run report .html | qc/cohort-N/ URL | gs:// path>" --pre
 python bsi_qc.py prefetch --region RUS [--layers tci,bsi-e,bsi-mask,ndvi]   # default tci,bsi-e,bsi-mask
 python bsi_qc.py fetch-ponds [--region USA/texas]   # regions without a local *_qc_samples_ponds.geojson
 python bsi_qc.py serve [--host 0.0.0.0]              # http://localhost:8765
-python bsi_qc.py export --initials RSL_LM_AP [--region RUS ...|--all] [--strict]   # default: regions with app edits
+python bsi_qc.py export --initials RSL_XY [--region RUS ...|--all] [--strict]   # default: regions with app edits
 ```
 State lives in `qc_workspace/` (qc.sqlite, vocab.json, cache/, exports/, import_report.csv). `data/` and `qc_workspace/` are git-ignored.
 
@@ -34,7 +34,7 @@ State lives in `qc_workspace/` (qc.sqlite, vocab.json, cache/, exports/, import_
 - `qc_site_valid` is required on every app-saved verdict (never defaulted, not filled by "Use suggestion"). Null on imported rows = not assessed. Part order = order inside the ponds MultiPolygon (verified against the gpkg).
 - Legacy verdicts in `qc/processed/*complete*.geojson` (not `dump/`) are imported locked; fixes are logged in import_report.csv.
 
-## Decisions (agreed with Ashu)
+## Decisions (agreed in the lab)
 - Operation verdict is **pre-filled** from polygon labels; the reviewer confirms or overrides it.
 - Added `qc_site_valid` (yes/no/unsure): "possible CAFO FP / not a cattle farm" is a facility-location error, not a BSI error.
 - No `below_resolution` value: "too small to detect" / "resolution" maps to `missed_small_feature`.

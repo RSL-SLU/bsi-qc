@@ -22,7 +22,9 @@ code { background: #eef0ea; padding: 0 4px; border-radius: 3px; font-size: 12px;
 ul.plain { padding-left: 18px; }
 
 header { height: 46px; display: flex; align-items: center; gap: 14px; padding: 0 14px; background: #1f2a25; color: #eef2ee; }
-header .brand { font-weight: 700; letter-spacing: .3px; }
+header .brand { font-weight: 700; letter-spacing: .3px; display: flex; flex-direction: column; line-height: 1.15; }
+header .brand .org { font-weight: 400; font-size: 10.5px; letter-spacing: 0; color: #a9b8ae; white-space: nowrap; }
+#help .credit { margin-top: 28px; padding-top: 10px; border-top: 1px solid var(--line); }
 header nav button { background: transparent; border: 0; color: #c6d1ca; padding: 6px 10px; }
 header nav button.on { color: #fff; box-shadow: inset 0 -2px 0 #8fd1a9; border-radius: 0; }
 header .spacer { flex: 1; }

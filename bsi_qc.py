@@ -48,7 +48,7 @@ def main():
     f.add_argument("--region", help="only this region, e.g. USA/texas")
 
     e = sub.add_parser("export", help="write Climate TRACE files, polygon GeoPackage and candidate library")
-    e.add_argument("--initials", default="RSL", help="suffix for file names, e.g. RSL_LM_AP")
+    e.add_argument("--initials", default="RSL", help="suffix for file names, e.g. RSL_XY")
     e.add_argument("--strict", action="store_true",
                    help="Climate TRACE files carry only qc_result/feature/issue/notes (no site_valid, reviewer, date)")
     eg = e.add_mutually_exclusive_group()

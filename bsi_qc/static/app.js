@@ -674,7 +674,8 @@ function renderHelp() {
       <li>All polygons other water, wet runoff or false positive → incorrect / largest-area class</li><li>Only uncertain or mixed → uncertain / unclear</li>
       <li>BSI no-pond with a missed manure feature marked → incorrect; with none → correct / no_visible_candidate</li></ul>
     <p class="muted">"Is this a cattle operation?" = no when the footprint is not a farm (solar panels, river, town). Those cases are reported separately so they don't count against BSI accuracy.</p>
-    <h3>Keys</h3><p><kbd>1</kbd>-<kbd>8</kbd> class · <kbd>n</kbd>/<kbd>p</kbd> next/previous polygon · <kbd>]</kbd>/<kbd>[</kbd> next/previous operation · <kbd>t</kbd> TCI · <kbd>b</kbd> BSI-E · <kbd>k</kbd> BSI mask · <kbd>0</kbd> basemap only · <kbd>o</kbd> outlines · <kbd>f</kbd> follow-up · <kbd>m</kbd> mark missed · <kbd>z</kbd> zoom</p>`;
+    <h3>Keys</h3><p><kbd>1</kbd>-<kbd>8</kbd> class · <kbd>n</kbd>/<kbd>p</kbd> next/previous polygon · <kbd>]</kbd>/<kbd>[</kbd> next/previous operation · <kbd>t</kbd> TCI · <kbd>b</kbd> BSI-E · <kbd>k</kbd> BSI mask · <kbd>0</kbd> basemap only · <kbd>o</kbd> outlines · <kbd>f</kbd> follow-up · <kbd>m</kbd> mark missed · <kbd>z</kbd> zoom</p>
+    <p class="credit muted small">Developed by the Remote Sensing Lab (RSL), Saint Louis University, for Climate TRACE.</p>`;
 }
 
 async function renderExportRegions() {

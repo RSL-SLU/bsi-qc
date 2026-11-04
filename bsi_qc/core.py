@@ -160,7 +160,7 @@ def check_inputs(data_root, gpkg_path=None):
     if gpkg_path:
         if not os.path.isfile(gpkg_path) or os.path.getsize(gpkg_path) == 0:
             raise SystemExit("GeoPackage not found (or empty): %s\nCheck the file name; e.g. "
-                             "--gpkg \"E:\\path\\to\\International_BSI_Polygon_QC.gpkg\"" % os.path.abspath(gpkg_path))
+                             "--gpkg \"path\\to\\International_BSI_Polygon_QC.gpkg\"" % os.path.abspath(gpkg_path))
         g = sqlite3.connect("file:%s?mode=ro" % os.path.abspath(gpkg_path).replace("\\", "/"), uri=True)
         try:
             tables = [r[0] for r in g.execute("SELECT table_name FROM gpkg_contents")]
